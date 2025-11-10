@@ -2,29 +2,73 @@
 
 ## Step-by-Step Setup
 
-### Step 1: Configure API Keys ✅
+### Step 0: Choose Your LLM Option
 
-Your `.env` file has been created. Now add your OpenAI API key:
+**Option A: Ollama (FREE - Recommended for testing)**
 
-```powershell
+1. Install Ollama:
+```bash
+# Windows
+winget install Ollama.Ollama
+
+# Linux/macOS
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+2. Pull model:
+```bash
+ollama pull llama3.2:3b
+```
+
+3. Start Ollama (keep running in separate terminal):
+```bash
+ollama serve
+```
+
+4. In `.env`, ensure this is set:
+```bash
+USE_OLLAMA=true
+```
+
+**Option B: OpenAI (Costs money)**
+
+1. Edit `.env` file:
+```bash
+# Windows
 notepad .env
+
+# Linux/macOS
+nano .env
 ```
 
-Update this line:
-```
+2. Update this line:
+```bash
 OPENAI_API_KEY=sk-your-actual-key-here
+USE_OLLAMA=false
 ```
 
-Save and close.
+3. Save and close.
+
+---
+
+### Step 1: Configure Environment
+
+Create `.env` from template:
+```bash
+# Windows
+copy .env.example .env
+
+# Linux/macOS
+cp .env.example .env
+```
 
 ### Step 2: Start Infrastructure
 
-```powershell
+```bash
 # Start all Docker services
 docker-compose up -d
 
-# Wait for services to be ready (60 seconds)
-Start-Sleep -Seconds 60
+# Wait for services to be ready (~30 seconds)
 
 # Check if services are running
 docker-compose ps
@@ -34,9 +78,9 @@ You should see all services "Up" and "healthy".
 
 ### Step 3: Initialize Databases
 
-```powershell
+```bash
 # Install Python dependencies first
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 # Initialize PostgreSQL, Elasticsearch, and Milvus
 python scripts/init_db.py
@@ -96,12 +140,25 @@ Generating embeddings...
 Milvus: 5/5 documents indexed
 ```
 
-### Step 5: Start Temporal Worker
+### Step 5: Test the System
 
-Open a **new terminal** (keep it running):
+**Quick Demo (recommended first):**
+```bash
+# Instant demo showing all 3 agents
+python demo_quick.py
 
-```powershell
-cd C:\Users\bjoy2\clinical-guideline-assistant
+# Full pipeline with live Ollama (~25 seconds)
+python demo_full_pipeline.py
+
+# Single agent test
+python test_with_ollama.py
+```
+
+### Step 6: Start Production Services (Optional)
+
+**Start Temporal Worker** - Open a new terminal:
+
+```bash
 python scripts/start_worker.py
 ```
 
@@ -116,13 +173,10 @@ Press Ctrl+C to stop
 ============================================================
 ```
 
-### Step 6: Start API Server
+**Start API Server** - Open another new terminal:
 
-Open **another new terminal** (keep it running):
-
-```powershell
-cd C:\Users\bjoy2\clinical-guideline-assistant
-uvicorn api.main:app --reload --port 8000
+```bash
+python -m uvicorn api.main:app --reload --port 8000
 ```
 
 Expected output:
@@ -281,16 +335,16 @@ docker-compose logs temporal      # Temporal
 
 ### Issue: "Elasticsearch connection failed"
 
-```powershell
+```bash
 # Check if Elasticsearch is running
 docker-compose ps elasticsearch
 
-# Check Elasticsearch health
-curl http://localhost:9200/_cluster/health
+# Check Elasticsearch health (note: port 9201, not 9200)
+curl http://localhost:9201/_cluster/health
 
 # Restart if needed
 docker-compose restart elasticsearch
-Start-Sleep -Seconds 30
+# Wait 30 seconds for service to be ready
 ```
 
 ### Issue: "Milvus connection failed"
