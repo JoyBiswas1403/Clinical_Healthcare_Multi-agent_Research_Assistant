@@ -4,20 +4,12 @@ A production-ready 3-agent multi-agent system for healthcare clinical guideline 
 
 ## 🎯 Key Features
 
-- **💰 100% FREE Operation**: Uses Ollama (local LLM) - zero API costs
 - **⚡ Fast Execution**: ~25 seconds for full 3-agent pipeline
 - **🏗️ Production Ready**: Docker Compose infrastructure with 10+ services
 - **📊 Full Observability**: Prometheus metrics, Jaeger tracing, Temporal workflows
 - **🔄 Flexible LLM**: Switch between Ollama (free) and OpenAI (paid)
 - **🪟 Windows Support**: Tested on Windows with Python 3.11
 
-## 💰 Cost Comparison
-
-| LLM Option | Cost per Query | Speed | Quality |
-|------------|----------------|-------|---------|
-| **Ollama (llama3.2:3b)** | $0.00 | ~25s | Good |
-| OpenAI (gpt-4o-mini) | ~$0.03 | ~20s | Excellent |
-| OpenAI (gpt-4-turbo) | ~$0.15 | ~25s | Best |
 
 ## Architecture
 
