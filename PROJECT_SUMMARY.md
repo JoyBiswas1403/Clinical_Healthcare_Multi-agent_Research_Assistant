@@ -239,14 +239,7 @@ curl http://localhost:8000/api/v1/research/{request_id} \
 ✅ **Documentation**: README, getting started, code comments  
 ✅ **Deployable**: One-command setup with `start.ps1`
 
-## Time to Ship
 
-**Estimated**: 7-10 days to production with a 2-person team
-- Days 1-2: Infrastructure setup, data ingestion
-- Days 3-5: Agent tuning, prompt optimization
-- Days 6-7: Testing, evaluation, bug fixes
-- Days 8-9: Documentation, security review
-- Day 10: Deployment, monitoring setup
 
 **Current State**: ✅ Foundation complete, ready for customization and data loading
 
